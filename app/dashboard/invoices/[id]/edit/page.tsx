@@ -2,6 +2,7 @@ import Form from '@/app/ui/invoices/edit-form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchCustomers, fetchInvoiceById } from '@/app/lib/data';
 import { FC } from 'react';
+import { notFound } from 'next/navigation';
 
 type TProps = { params: Promise<{ id: string }> };
 
@@ -13,6 +14,11 @@ const Page: FC<TProps> = async props => {
         fetchInvoiceById(id),
         fetchCustomers()
     ]);
+
+    if (!invoice) {
+        notFound();
+    }
+
     return (
         <main>
             <Breadcrumbs
